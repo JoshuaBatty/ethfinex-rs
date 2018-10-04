@@ -1,13 +1,13 @@
-extern crate bitfinex;
+extern crate ethfinex;
 
-use bitfinex::api::*;
-use bitfinex::pairs::*;
-use bitfinex::currency::*;
+use ethfinex::api::*;
+use ethfinex::pairs::*;
+use ethfinex::currency::*;
 
 fn main() {
     let api_key = Some("YOUR_API_KEY".into());
     let secret_key = Some("YOUR_SECRET_KEY".into());
-    let api = Bitfinex::new(api_key, secret_key);
+    let api = Ethfinex::new(api_key, secret_key);
   
     match api.account.get_acctount_info() {
         Ok(info) => println!("account info"),

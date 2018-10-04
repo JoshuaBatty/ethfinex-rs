@@ -1,13 +1,13 @@
 use errors::*;
 use reqwest;
 use reqwest::{StatusCode, Response};
-use reqwest::header::{Headers, UserAgent, ContentType};
+use reqwest::header::HeaderMap;
 use std::io::Read;
 use ring::{digest, hmac};
 use hex::encode as hex_encode;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-static API1_HOST : &'static str = "https://api.bitfinex.com/v2/";
+static API1_HOST : &'static str = "https://api.ethfinex.com/v2/";
 static API_SIGNATURE_PATH : &'static str = "/api/v2/auth/r/";
 
 #[derive(Clone)]
@@ -29,7 +29,7 @@ impl Client {
         if !request.is_empty() {
             url.push_str(format!("?{}", request).as_str());
         }
- 
+
         let response = reqwest::get(url.as_str())?;
 
         self.handler(response)
@@ -47,21 +47,21 @@ impl Client {
         self.handler(response)            
     } 
 
-    fn build_headers(&self, request: String, payload: String) -> Result<Headers> {
+    fn build_headers(&self, request: String, payload: String) -> Result<HeaderMap> {
         let nonce: String = self.generate_nonce()?;
         let signature_path: String = format!("{}{}{}{}", API_SIGNATURE_PATH, request, nonce, payload);
 
         let signed_key = hmac::SigningKey::new(&digest::SHA384, self.secret_key.as_bytes());
         let signature = hex_encode(hmac::sign(&signed_key, signature_path.as_bytes()).as_ref());
 
-        let mut custon_headers = Headers::new();  
-        custon_headers.set(UserAgent::new("bitfinex-rs"));
-        custon_headers.set_raw("bfx-nonce", nonce.as_str());
-        custon_headers.set_raw("bfx-apikey", self.api_key.as_str());
-        custon_headers.set_raw("bfx-signature", signature.as_str());
-        custon_headers.set(ContentType::json());
+        let mut custom_headers = HeaderMap::new();
+        custom_headers.insert("user-agent", "bitfinex-rs".parse().expect("parse failed"));
+        custom_headers.insert("bfx-nonce", nonce.as_str().parse().expect("parse failed"));
+        custom_headers.insert("bfx-apikey", self.api_key.as_str().parse().expect("parse failed"));
+        custom_headers.insert("bfx-signature", signature.as_str().parse().expect("parse failed"));
+        custom_headers.insert("content-type", "application/json".parse().expect("parse failed"));
 
-        Ok(custon_headers)
+        Ok(custom_headers)
     } 
 
     fn generate_nonce(&self) -> Result<String> {
@@ -75,21 +75,21 @@ impl Client {
 
     fn handler(&self, mut response: Response) -> Result<(String)> {
         match response.status() {
-            StatusCode::Ok => {
+            StatusCode::OK => {
                 let mut body = String::new();
                 response.read_to_string(&mut body)?;
                 return Ok(body);
             },
-            StatusCode::InternalServerError => {
+            StatusCode::INTERNAL_SERVER_ERROR => {
                 bail!("Internal Server Error");
             }
-            StatusCode::ServiceUnavailable => {
+            StatusCode::SERVICE_UNAVAILABLE => {
                 bail!("Service Unavailable");
             }
-            StatusCode::Unauthorized => {
+            StatusCode::UNAUTHORIZED => {
                 bail!("Unauthorized");
             }            
-            StatusCode::BadRequest => {
+            StatusCode::BAD_REQUEST => {
                 bail!(format!("Bad Request: {:?}", response));
             }                        
             s => {

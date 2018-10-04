@@ -7,7 +7,7 @@ use orders::*;
 use account::*;
 
 #[derive(Clone)]
-pub struct Bitfinex {
+pub struct Ethfinex {
     pub book: Book,
     pub ticker: Ticker,
     pub tickers: Tickers,
@@ -17,9 +17,9 @@ pub struct Bitfinex {
     pub account: Account
 }
 
-impl Bitfinex {
+impl Ethfinex {
     pub fn new(api_key: Option<String>, secret_key: Option<String>) -> Self {
-        Bitfinex { 
+        Ethfinex { 
             book: Book::new(),
             ticker: Ticker::new(),
             tickers: Tickers::new(),

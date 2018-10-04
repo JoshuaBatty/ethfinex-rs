@@ -1,7 +1,7 @@
 [package]
-name = "bitfinex-app"
-version = "0.3.0"
-authors = ["Flavio Oliveira <flavio@wisespace.io>"]
+name = "ethfinex-app"
+version = "0.1.0"
+authors = ["Flavio Oliveira <flavio@wisespace.io> & Joshua Batty <joshpbatty@gmail.com>"]
 
 [[bin]]
 name = "private_endpoints"
@@ -16,4 +16,4 @@ name = "public_channels"
 path = "src/public_channels.rs"
 
 [dependencies]
-bitfinex = { path = "../" }
+ethfinex = { path = "../" }

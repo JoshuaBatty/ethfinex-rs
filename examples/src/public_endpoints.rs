@@ -1,13 +1,13 @@
-extern crate bitfinex;
+extern crate ethfinex;
 
-use bitfinex::api::*;
-use bitfinex::pairs::*;
-use bitfinex::currency::*;
-use bitfinex::precision::*;
+use ethfinex::api::*;
+use ethfinex::pairs::*;
+use ethfinex::currency::*;
+use ethfinex::precision::*;
 
 fn main() {
-    let api = Bitfinex::new(None, None);
-  
+    let api = Ethfinex::new(None, None);
+
     // TICKER
     let trading_pair = api.ticker.trading_pair(ETHUSD);
     match trading_pair {

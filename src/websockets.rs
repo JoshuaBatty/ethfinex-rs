@@ -13,7 +13,7 @@ use std::sync::mpsc::{self, channel};
 
 static INFO: &'static str = "info";
 static SUBSCRIBED: &'static str = "subscribed";
-static WEBSOCKET_URL: &'static str = "wss://api.bitfinex.com/ws/2";
+static WEBSOCKET_URL: &'static str = "wss://api.ethfinex.com/ws/2/";
 
 pub trait EventHandler {
     fn on_connect(&mut self, event: NotificationEvent);
@@ -195,9 +195,9 @@ impl WebSockets {
                                 let event: NotificationEvent = from_str(&text)?;
                                 h.on_subscribed(event);
                             } else {
-                                println!("update event {:#?}", text);
+                                //println!("update event {:#?}", text);
                                 let event: DataEvent = from_str(&text)?;
-                                println!("event ] {:#?}", event);
+                                //println!("event ] {:#?}", event);
                                 if let DataEvent::HeartbeatEvent(_a, _b) = event {
                                     continue;
                                 } else {

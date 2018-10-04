@@ -1,20 +1,20 @@
 [package]
-name = "bitfinex"
-version = "0.3.0"
+name = "ethfinex"
+version = "0.1.0"
 license = "MIT OR Apache-2.0"
-authors = ["Flavio Oliveira <flavio@wisespace.io>"]
+authors = ["Flavio Oliveira <flavio@wisespace.io> & Joshua Batty <joshpbatty@gmail.com>"]
 
-description = "Rust Library for the Bitfinex API"
+description = "Rust Library for the Ethfinex API"
 keywords = ["cryptocurrency", "trading", "bitcoin"]
-documentation = "https://docs.rs/crate/bitfinex/"
-repository = "https://github.com/wisespace-io/bitfinex-rs"
+documentation = "https://docs.rs/crate/ethfinex/"
+repository = "https://github.com/JoshuaBatty/ethfinex-rs"
 readme = "README.md"
 
 [badges]
-travis-ci = { repository = "wisespace-io/bitfinex-rs" }
+travis-ci = { repository = "JoshuaBatty/ethfinex-rs" }
 
 [lib]
-name = "bitfinex"
+name = "ethfinex"
 path = "src/lib.rs"
 
 [dependencies]
@@ -24,7 +24,7 @@ serde_json = "1.0"
 serde_derive = "1.0"
 error-chain = "0.12"
 ring = "0.13"
-reqwest = "0.8"
+reqwest = "0.9"
 url = "1.7"
 log = "0.3"
 tungstenite = "0.6"

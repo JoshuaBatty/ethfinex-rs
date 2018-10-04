@@ -64,12 +64,11 @@ impl Tickers {
         S: Into<String>,
     {
         let symbol_str = symbol.into();
-        let mut endpoint = String::new();
-        if symbol_str == "ALL" {
-            endpoint = format!("tickers?symbols={}", symbol_str);
+        let endpoint = if symbol_str == "ALL" {
+            format!("tickers?symbols={}", symbol_str)
         } else {
-            endpoint = format!("tickers?symbols=t{}", symbol_str);
-        }
+            format!("tickers?symbols=t{}", symbol_str)
+        };
         let data = self.client.get(endpoint, String::new())?;
         
         let line = data.as_str();
